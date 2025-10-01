@@ -1,0 +1,18 @@
+# Notification position
+anchor=top-right
+margin=10
+width=300
+height=200
+
+# Colors (Gruvbox-like dark theme)
+background-color=#282828
+text-color=#ebdbb2
+border-color=#458588
+border-size=2
+border-radius=8
+
+# Font and padding
+font=JetBrainsMono Nerd Font 11
+default-timeout=3000
+padding=10
+
