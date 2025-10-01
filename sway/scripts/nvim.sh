@@ -2,21 +2,21 @@
 set -euo pipefail
 
 WORKSPACE="Nvim"
+APP_CMD="foot"
 
-# 1) Переключаемся на нужный workspace
+# swaymsg -t get_tree | jq -r '.. | select(.app_id? != null) | .app_id' | sort -u
+APP_ID="foot"
+
+# Switch to the workspace
 swaymsg workspace "$WORKSPACE" >/dev/null
 
-# 2) Проверяем: есть ли В ЭТОМ workspace окно Chrome/Chromium
-if swaymsg -t get_tree \
-  | jq -r --arg ws "$WORKSPACE" '
-      .. | objects
-      | select(.type?=="workspace" and .name==$ws)
-      | .. | objects
-      | select(.app_id?=="foot")
-      | .id
-    ' | grep -q .; then
-  # Окно уже есть — ничего не делаем 
+# Check if app is already opened in this workspace
+if swaymsg -t get_tree | jq -r --arg ws "$WORKSPACE" --arg app_id "$APP_ID" '
+  .. | select(.type?=="workspace" and .name==$ws)? 
+  | .. | select(.app_id?==$app_id)?
+  | .id' | grep -q .; then
   exit 0
 fi
 
-swaymsg exec -- foot
+# Launch app
+swaymsg exec -- "$APP_ID"
