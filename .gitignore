@@ -13,9 +13,11 @@ containers/
 copyq/
 dconf/
 google-chrome/
-gtk-3.0/
+gtk-*/
 guitarix/
 htop/
+kitty/
+lazygit/
 lxqt/
 mpv/
 pipewire/
@@ -23,6 +25,7 @@ pulse/
 pypoetry/
 rncbc.org/
 systemd/
+transmission/
 xarchiver/
 xfce4/
 QtProject.conf
