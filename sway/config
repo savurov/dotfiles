@@ -122,28 +122,20 @@ output HDMI-A-2 {
 #
 # Workspaces:
 #
+
+
+    bindsym --to-code $mod+c exec ~/.config/sway/scripts/gpt.sh; exec swaymsg input "*keyboard*" xkb_layout us
+    bindsym --to-code $mod+f exec ~/.config/sway/scripts/chrome.sh; exec swaymsg input "*keyboard*" xkb_layout us
+    bindsym --to-code $mod+v exec ~/.config/sway/scripts/nvim.sh; exec swaymsg input "*keyboard*" xkb_layout us
+    bindsym --to-code $mod+b exec ~/.config/sway/scripts/nvim2.sh; exec swaymsg input "*keyboard*" xkb_layout us
+    bindsym --to-code $mod+p exec ~/.config/sway/scripts/podman.sh; exec swaymsg input "*keyboard*" xkb_layout us
+
     # Switch to workspace
-    bindsym $mod+z workspace number 1
-    bindsym $mod+x workspace number 2
-    bindsym $mod+a workspace number 3
-    bindsym $mod+4 workspace number 4
-    bindsym $mod+5 workspace number 5
-    bindsym $mod+6 workspace number 6
-    bindsym $mod+7 workspace number 7
-    bindsym $mod+8 workspace number 8
-    bindsym $mod+9 workspace number 9
-    bindsym $mod+0 workspace number 10
+    bindsym --to-code $mod+z workspace number 1; exec swaymsg input "*keyboard*" xkb_layout us
+    bindsym --to-code $mod+x workspace number 2; exec swaymsg input "*keyboard*" xkb_layout us
     # Move focused container to workspace
     bindsym $mod+Shift+z move container to workspace number 1
     bindsym $mod+Shift+x move container to workspace number 2
-    bindsym $mod+Shift+a move container to workspace number 3
-    bindsym $mod+Shift+4 move container to workspace number 4
-    bindsym $mod+Shift+5 move container to workspace number 5
-    bindsym $mod+Shift+6 move container to workspace number 6
-    bindsym $mod+Shift+7 move container to workspace number 7
-    bindsym $mod+Shift+8 move container to workspace number 8
-    bindsym $mod+Shift+9 move container to workspace number 9
-    bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -167,7 +159,7 @@ output HDMI-A-2 {
     # bindsym $mod+Shift+space floating toggle
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+    bindsym $mod+w focus mode_toggle
 
     # Move focus to the parent container
     # bindsym $mod+a focus parent
@@ -211,13 +203,6 @@ input type:keyboard {
   xkb_layout "us, ru"
   xkb_options "grp:win_space_toggle"
 }
-
-bindsym --to-code $mod+c exec ~/.config/sway/scripts/gpt.sh
-bindsym --to-code $mod+f exec ~/.config/sway/scripts/chrome.sh
-bindsym --to-code $mod+v exec ~/.config/sway/scripts/nvim.sh
-bindsym --to-code $mod+b exec ~/.config/sway/scripts/nvim2.sh
-bindsym --to-code $mod+p exec ~/.config/sway/scripts/podman.sh
-
 
 default_border pixel 1 
 
