@@ -32,15 +32,16 @@ set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg, jxl-pixbuf-loader
 output * bg /home/hijack/Pictures/wallpaper2.jpg fill
+output * adaptive_sync on
 #
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-output HDMI-A-2 {
-    resolution 1920x1080@75Hz
-    position 0,0
+output HDMI-A-1 {
+    resolution 1920x1080@74.986Hz
+    position 0 0
     scale 1
 }
 
@@ -80,13 +81,13 @@ output HDMI-A-2 {
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    bindsym --to-code $mod+Return exec $term
 
     # Kill focused window
-    bindsym $mod+q kill
+    bindsym --to-code $mod+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym --to-code $mod+d exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -96,29 +97,29 @@ output HDMI-A-2 {
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym --to-code $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaymsg exit
+    bindsym --to-code $mod+Shift+e exec swaymsg exit
 #
 # Moving around:
 #
     # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
+    bindsym --to-code $mod+$left focus left
+    bindsym --to-code $mod+$down focus down
+    bindsym --to-code $mod+$up focus up
+    bindsym --to-code $mod+$right focus right
     # Or use $mod+[up|down|left|right]
-    bindsym $mod+Right resize shrink width 40px
-    bindsym $mod+Left resize grow width 40px
-    bindsym $mod+Up resize grow height 40px
-    bindsym $mod+Down resize shrink height 40px
+    bindsym --to-code $mod+Right resize shrink width 40px
+    bindsym --to-code $mod+Left resize grow width 40px
+    bindsym --to-code $mod+Up resize grow height 40px
+    bindsym --to-code $mod+Down resize shrink height 40px
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+    bindsym --to-code $mod+Shift+$left move left
+    bindsym --to-code $mod+Shift+$down move down
+    bindsym --to-code $mod+Shift+$up move up
+    bindsym --to-code $mod+Shift+$right move right
 #
 # Workspaces:
 #
@@ -134,8 +135,8 @@ output HDMI-A-2 {
     bindsym --to-code $mod+z workspace number 1; exec swaymsg input "*keyboard*" xkb_layout us
     bindsym --to-code $mod+x workspace number 2; exec swaymsg input "*keyboard*" xkb_layout us
     # Move focused container to workspace
-    bindsym $mod+Shift+z move container to workspace number 1
-    bindsym $mod+Shift+x move container to workspace number 2
+    bindsym --to-code $mod+Shift+z move container to workspace number 1
+    bindsym --to-code $mod+Shift+x move container to workspace number 2
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -144,25 +145,25 @@ output HDMI-A-2 {
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+Shift+s splith
-    bindsym $mod+s splitv
+    bindsym --to-code $mod+Shift+s splith
+    bindsym --to-code $mod+s splitv
 
     # Switch the current container between different layout styles
-    # bindsym $mod+s layout stacking
-    # bindsym $mod+w layout tabbed
-    # bindsym $mod+e layout toggle split
+    # bindsym --to-code $mod+s layout stacking
+    # bindsym --to-code $mod+w layout tabbed
+    # bindsym --to-code $mod+e layout toggle split
     #
     # Make the current focus fullscreen
-    # bindsym $mod+f fullscreen
+    # bindsym --to-code $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    # bindsym $mod+Shift+space floating toggle
+    # bindsym --to-code $mod+Shift+space floating toggle
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+w focus mode_toggle
+    bindsym --to-code $mod+w focus mode_toggle
 
     # Move focus to the parent container
-    # bindsym $mod+a focus parent
+    # bindsym --to-code $mod+a focus parent
 #
 # Scratchpad:
 #
@@ -170,11 +171,11 @@ output HDMI-A-2 {
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    bindsym --to-code $mod+Shift+minus move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    bindsym --to-code $mod+minus scratchpad show
 
 # Include configs from 3 locations:
 #  - /usr/share/sway/config.d
