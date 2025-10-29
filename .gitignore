@@ -16,7 +16,6 @@ google-chrome/
 gtk-*/
 guitarix/
 htop/
-kitty/
 lazygit/
 lxqt/
 mpv/
@@ -31,6 +30,14 @@ xfce4/
 QtProject.conf
 pavucontrol.ini
 user-dirs.*
+
+nnn/
+gh/
+uv/
+Postman/
+Code/
+Vial/
+
 
 
 
