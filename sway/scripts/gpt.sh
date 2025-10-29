@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WORKSPACE="Grok"
+WORKSPACE="Chat"
 APP_CMD="google-chrome"
 
 # swaymsg -t get_tree | jq -r '.. | select(.app_id? != null) | .app_id' | sort -u
@@ -24,4 +24,4 @@ if swaymsg -t get_tree | jq -r --arg ws "$WORKSPACE" --arg app_id "$APP_ID" '
 fi
 
 # Launch app
-"$APP_CMD" "${ARGS[@]}" https://grok.com/c >/dev/null 2>&1 &
+"$APP_CMD" "${ARGS[@]}" https://chatgpt.com >/dev/null 2>&1 &
