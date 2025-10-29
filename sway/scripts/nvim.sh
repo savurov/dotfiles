@@ -2,10 +2,10 @@
 set -euo pipefail
 
 WORKSPACE="Nvim"
-APP_CMD="foot"
+APP_CMD="kitty"
 
 # swaymsg -t get_tree | jq -r '.. | select(.app_id? != null) | .app_id' | sort -u
-APP_ID="foot"
+APP_ID="kitty"
 
 # Switch to the workspace
 swaymsg workspace "$WORKSPACE" >/dev/null
