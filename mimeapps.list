@@ -8,3 +8,4 @@ x-scheme-handler/unknown=google-chrome.desktop
 image/png=org.gnome.Loupe.desktop
 image/jpeg=org.gnome.Loupe.desktop
 image/gif=org.gnome.Loupe.desktop
+x-scheme-handler/postman=Postman.desktop
