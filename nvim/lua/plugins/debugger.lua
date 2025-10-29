@@ -26,6 +26,23 @@ return {
         {
           type = "python",
           request = "launch",
+          name = "Launch current file",
+          program = "${file}",
+          cwd = "${workspaceFolder}",
+          pythonPath = function()
+            local venv = vim.fn.getcwd() .. "/.venv/bin/python"
+            if vim.fn.executable(venv) == 1 then
+              return venv
+            else
+              return "python3"
+            end
+          end,
+          console = "integratedTerminal",
+          justMyCode = false,
+        },
+        {
+          type = "python",
+          request = "launch",
           name = "uvicorn /src/main.py (Debug)",
           module = "uvicorn",
           args = { "src.main:app", "--host", "127.0.0.1", "--port", "8000" },

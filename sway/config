@@ -41,9 +41,17 @@ output * adaptive_sync on
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 output HDMI-A-1 {
     resolution 1920x1080@74.986Hz
+    transform 90
+    position 1920 0
+    scale 1
+}
+
+output HDMI-A-2 {
+    resolution 1920x1080@100.047Hz
     position 0 0
     scale 1
 }
+
 
 ### Idle configuration
 #
@@ -129,7 +137,7 @@ output HDMI-A-1 {
     bindsym --to-code $mod+f exec ~/.config/sway/scripts/chrome.sh; exec swaymsg input "*keyboard*" xkb_layout us
     bindsym --to-code $mod+v exec ~/.config/sway/scripts/nvim.sh; exec swaymsg input "*keyboard*" xkb_layout us
     bindsym --to-code $mod+b exec ~/.config/sway/scripts/nvim2.sh; exec swaymsg input "*keyboard*" xkb_layout us
-    bindsym --to-code $mod+p exec ~/.config/sway/scripts/podman.sh; exec swaymsg input "*keyboard*" xkb_layout us
+    # bindsym --to-code $mod+p exec ~/.config/sway/scripts/podman.sh; exec swaymsg input "*keyboard*" xkb_layout us
 
     # Switch to workspace
     bindsym --to-code $mod+z workspace number 1; exec swaymsg input "*keyboard*" xkb_layout us
@@ -205,14 +213,16 @@ input type:keyboard {
   xkb_options "grp:win_space_toggle"
 }
 
-default_border pixel 1 
+client.focused          #ea999c #ea999c #ffffff #ea999c #ea999c
+default_border pixel 2
 
 smart_gaps off
 gaps inner 10
 gaps outer 1
 
 exec /usr/libexec/polkit-mate-authentication-agent-1
-# exec wl-paste -t text --watch clipman store --no-persist
+
+exec wl-paste -t text --watch clipman store --no-persist
 # exec_always sh -c 'sleep 10 && wl-paste -t text --watch sh -c "clipman store --no-persist && notify-send \"Clipboard Updated\" \"$(wl-paste)\""' 
 #
 # exec wl-paste -t text --watch sh -c 't=$(cat); s=$(printf "%.10s" "$t"); [ ${#t} -gt 10 ] && s="$s…"; notify-send "Clipboard updated" "$s"; printf "%s" "$t" | clipman store --no-persist'
@@ -225,4 +235,15 @@ exec wl-paste -t text --watch sh -c 't="$(cat)"; [ -z "${t//[[:space:]]/}" ] && 
 bindsym --to-code $mod+i exec grim -g "$(slurp)" - | wl-copy
 
 exec mako
+# Increase brightness by 10%
+bindsym --to-code $mod+p exec ~/.config/sway/brightness/brightness.py up
+# Decrease brightness by 10%
+bindsym --to-code $mod+o exec ~/.config/sway/brightness/brightness.py down
+
+
+# ~/.config/sway/config
+bindsym $mod+a move workspace to output left
+bindsym $mod+Shift+a move workspace to output left
+
+# exec_always ~/.config/sway/brightness/ddc_send.sh current
 
