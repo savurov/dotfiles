@@ -47,6 +47,7 @@ button {
 #network,
 #cpu,
 #memory,
+#custom-brightness,
 #temperature {
   background-color: #101010;
   padding: 0.5rem 1rem;
