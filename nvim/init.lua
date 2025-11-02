@@ -23,4 +23,5 @@ rtp:prepend(lazypath)
 
 require('lazy').setup 'plugins'
 
+require 'core.cmd'
 require 'core.keymaps'

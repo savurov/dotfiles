@@ -2,7 +2,6 @@ return {
   {
     'kdheepak/lazygit.nvim',
     cmd = { 'LazyGit', 'LazyGitConfig', 'LazyGitCurrentFile', 'LazyGitFilter', 'LazyGitFilterCurrentFile' },
-    keys = { { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit (float)' } },
     dependencies = { 'nvim-lua/plenary.nvim' },
     init = function()
       -- максимально крупное окно (почти «во весь экран»)

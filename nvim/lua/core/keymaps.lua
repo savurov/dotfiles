@@ -1,6 +1,6 @@
 -- helper: принимает либо таблицу opts, либо просто строку-описание
 local function map(mode, lhs, rhs, opt)
-  local defaults = { noremap = true, silent = true }
+  local defaults = { noremap = true, silent = false }
   local options
   if type(opt) == 'string' then
     options = vim.tbl_extend('force', defaults, { desc = opt })
@@ -28,11 +28,33 @@ end, 'Toggle Neo-tree')
 map('v', '<C-c>', '"+y', 'Copy to system clipboard')
 
 -- Quit
-map('n', '<leader>q', '<cmd>q<CR>', 'Quit')
+map('n', '<leader>q', '<cmd>qa<CR>', 'Quit')
 
+-- ===== Telescope =====
+local tb = require 'telescope.builtin'
+map('n', '<leader><leader>', tb.find_files, 'Find files')
+map('n', '<leader>sf', tb.find_files, 'Find [f]iles')
+map('n', '<leader>sg', tb.live_grep, 'Live [g]rep')
+map('n', '<leader>sb', tb.oldfiles, '[s]earch [b]ack')
+
+map('n', '<leader>sh', tb.help_tags, '[S]earch [H]elp')
+map('n', '<leader>sk', tb.keymaps, '[S]earch [K]eymaps')
+map('n', '<leader>ss', tb.builtin, '[S]earch [S]elect Telescope')
+map('n', '<leader>sw', tb.grep_string, '[S]earch current [W]ord')
+map('n', '<leader>sd', tb.diagnostics, '[S]earch [D]iagnostics')
+map('n', '<leader>sr', tb.resume, '[S]earch [R]esume last searcn')
+
+map('n', '<leader>sn', function()
+  tb.find_files { cwd = vim.fn.stdpath 'config' }
+end, '[S]earch [N]eovim files')
+map('n', '<leader>sc', function()
+  tb.find_files { cwd = '~/.config' }
+end, '[S]earch [C]onfig files')
 -- ===== LSP =====
 map('n', 'K', vim.lsp.buf.hover, 'Hover info')
 map('n', 'gd', vim.lsp.buf.definition, 'Go to definition')
+map('n', 'ge', vim.diagnostic.open_float, 'Show diagnostics popup')
+map('n', 'gr', tb.lsp_references, '[G]oto [R]eferences')
 map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
 map('n', '<leader>ca', vim.lsp.buf.code_action, 'Code action')
 
@@ -46,18 +68,24 @@ map('i', '<C-Space>', function()
   end
 end, 'Trigger completion')
 
--- ===== Telescope =====
-local tb = require 'telescope.builtin'
-map('n', '<leader><leader>', tb.find_files, 'Find files')
-map('n', '<leader>fg', tb.live_grep, 'Live grep')
-map('n', '<leader>fb', tb.buffers, 'Buffers')
-map('n', '<leader>fh', tb.help_tags, 'Help tags')
-map('n', '<leader>fd', tb.lsp_definitions, 'LSP definitions')
+map('n', '<leader>gg', '<cmd>LazyGit<cr>', 'LazyGit (float)')
+local last_buf = nil
 
--- Доп. LSP навигация в едином стиле
-map('n', 'grr', tb.lsp_references, '[G]oto [R]eferences')
-map('n', 'gri', tb.lsp_implementations, '[G]oto [I]mplementation')
-map('n', 'grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-map('n', 'gO', tb.lsp_document_symbols, 'Open Document Symbols')
-map('n', 'gW', tb.lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-map('n', 'grt', tb.lsp_type_definitions, '[G]oto [T]ype Definition')
+vim.api.nvim_create_autocmd('BufEnter', {
+  callback = function()
+    local current = vim.api.nvim_get_current_buf()
+    if current ~= last_buf then
+      vim.b.previous_buf = last_buf
+      last_buf = current
+    end
+  end,
+})
+
+vim.keymap.set('n', '<leader>b', function()
+  local prev = vim.b.previous_buf
+  if prev and vim.api.nvim_buf_is_valid(prev) then
+    vim.api.nvim_set_current_buf(prev)
+  else
+    vim.notify('No previous buffer', vim.log.levels.WARN)
+  end
+end, { desc = 'Toggle previous buffer' })

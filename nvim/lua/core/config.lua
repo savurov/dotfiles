@@ -1,9 +1,13 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.g.have_nerd_font = true
+vim.g.have_nerd_font = false
 
 vim.o.number = true
+vim.o.relativenumber = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.wrap = true
 vim.o.mouse = 'a'
 vim.o.showmode = false
 vim.o.breakindent = true
@@ -21,3 +25,5 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = true
 vim.o.scrolloff = 10
 vim.o.confirm = true
+vim.o.wildmenu = true
+vim.o.termguicolors = true
