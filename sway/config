@@ -113,10 +113,11 @@ output HDMI-A-2 {
 # Moving around:
 #
     # Move your focus around
-    bindsym --to-code $mod+$left focus left
-    bindsym --to-code $mod+$down focus down
-    bindsym --to-code $mod+$up focus up
-    bindsym --to-code $mod+$right focus right
+    bindsym --to-code $mod+$left  focus left;  exec swaymsg input type:keyboard xkb_switch_layout 0 &
+	bindsym --to-code $mod+$down  focus down;  exec swaymsg input type:keyboard xkb_switch_layout 0 &
+	bindsym --to-code $mod+$up    focus up;    exec swaymsg input type:keyboard xkb_switch_layout 0 &
+	bindsym --to-code $mod+$right focus right; exec swaymsg input type:keyboard xkb_switch_layout 0 &
+
     # Or use $mod+[up|down|left|right]
     bindsym --to-code $mod+Right resize shrink width 40px
     bindsym --to-code $mod+Left resize grow width 40px
@@ -246,4 +247,6 @@ bindsym $mod+a move workspace to output left
 bindsym $mod+Shift+a move workspace to output left
 
 # exec_always ~/.config/sway/brightness/ddc_send.sh current
+
+exec_always ~/.config/sway/scripts/onfocus-layout.sh &
 

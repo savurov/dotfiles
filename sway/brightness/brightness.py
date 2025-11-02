@@ -7,7 +7,7 @@ from fcntl import LOCK_EX, LOCK_NB, LOCK_UN, flock
 from pathlib import Path
 
 # === CONFIG ===
-STATE_FILE = Path.home() / ".config/sway/brightness/store.json"
+STATE_FILE = Path.home() / ".config/sway/brightness/.store.json"
 PRESETS_FILE = Path.home() / ".config/sway/brightness/presets.json"
 LOCK_FILE = STATE_FILE.with_suffix(".lock")
 BUSES = [1, 2]
