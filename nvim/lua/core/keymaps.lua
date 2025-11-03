@@ -18,45 +18,41 @@ map('n', '<C-h>', '<C-w><C-h>', 'Move focus left')
 map('n', '<C-l>', '<C-w><C-l>', 'Move focus right')
 map('n', '<C-j>', '<C-w><C-j>', 'Move focus down')
 map('n', '<C-k>', '<C-w><C-k>', 'Move focus up')
-
--- Neo-tree: надёжный toggle через API
-map('n', '<leader>e', function()
-  require('neo-tree.command').execute { toggle = true }
-end, 'Toggle Neo-tree')
-
--- Копировать в системный буфер в визуальном режиме
-map('v', '<C-c>', '"+y', 'Copy to system clipboard')
-
--- Quit
+map('v', '<C-c>', '"+y', 'ctrl+c')
 map('n', '<leader>q', '<cmd>qa<CR>', 'Quit')
+
+--====== Neo-tree  =====
+map('n', '<leader>e', '<cmd>Neotree toggle<CR>', 'Toggle Neo-tree')
 
 -- ===== Telescope =====
 local tb = require 'telescope.builtin'
-map('n', '<leader><leader>', tb.find_files, 'Find files')
-map('n', '<leader>sf', tb.find_files, 'Find [f]iles')
+map('n', '<leader>sf', tb.find_files, '[s]earch [f]iles')
 map('n', '<leader>sg', tb.live_grep, 'Live [g]rep')
 map('n', '<leader>sb', tb.oldfiles, '[s]earch [b]ack')
+map('n', '<leader>sr', tb.resume, '[s]earch [r]esume last search')
 
-map('n', '<leader>sh', tb.help_tags, '[S]earch [H]elp')
-map('n', '<leader>sk', tb.keymaps, '[S]earch [K]eymaps')
-map('n', '<leader>ss', tb.builtin, '[S]earch [S]elect Telescope')
-map('n', '<leader>sw', tb.grep_string, '[S]earch current [W]ord')
-map('n', '<leader>sd', tb.diagnostics, '[S]earch [D]iagnostics')
-map('n', '<leader>sr', tb.resume, '[S]earch [R]esume last searcn')
+map('n', '<leader>sh', tb.help_tags, '[s]earch [h]elp')
+map('n', '<leader>sk', tb.keymaps, '[s]earch [k]eymaps')
+map('n', '<leader>sw', tb.grep_string, '[s]earch current [w]ord')
+map('n', '<leader>sd', tb.diagnostics, '[s]earch [d]iagnostics')
+map('n', '<leader><leader>', tb.find_files, 'space space')
+map('n', '<leader>ss', tb.builtin, 'telescope functions')
 
 map('n', '<leader>sn', function()
   tb.find_files { cwd = vim.fn.stdpath 'config' }
-end, '[S]earch [N]eovim files')
+end, '[s]earch [n]eovim files')
+
 map('n', '<leader>sc', function()
   tb.find_files { cwd = '~/.config' }
-end, '[S]earch [C]onfig files')
+end, '[s]earch [c]onfig files')
+
 -- ===== LSP =====
-map('n', 'K', vim.lsp.buf.hover, 'Hover info')
-map('n', 'gd', vim.lsp.buf.definition, 'Go to definition')
-map('n', 'ge', vim.diagnostic.open_float, 'Show diagnostics popup')
-map('n', 'gr', tb.lsp_references, '[G]oto [R]eferences')
-map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
-map('n', '<leader>ca', vim.lsp.buf.code_action, 'Code action')
+map('n', '<leader>h', vim.lsp.buf.hover, '[h]over info')
+map('n', 'gd', vim.lsp.buf.definition, 'Go to [d]efinition')
+map('n', '<leader>d', vim.diagnostic.open_float, 'Show [d]iagnostics popup')
+map('n', 'gr', tb.lsp_references, '[g]oto [r]eferences')
+map('n', '<leader>r', vim.lsp.buf.rename, 'Rename symbol')
+map('n', '<leader>c', vim.lsp.buf.code_action, 'Code action')
 
 -- Инсерт-комплишн (работает с nvim-cmp, а иначе пробует lsp.buf.completion)
 map('i', '<C-Space>', function()
@@ -69,23 +65,4 @@ map('i', '<C-Space>', function()
 end, 'Trigger completion')
 
 map('n', '<leader>gg', '<cmd>LazyGit<cr>', 'LazyGit (float)')
-local last_buf = nil
-
-vim.api.nvim_create_autocmd('BufEnter', {
-  callback = function()
-    local current = vim.api.nvim_get_current_buf()
-    if current ~= last_buf then
-      vim.b.previous_buf = last_buf
-      last_buf = current
-    end
-  end,
-})
-
-vim.keymap.set('n', '<leader>b', function()
-  local prev = vim.b.previous_buf
-  if prev and vim.api.nvim_buf_is_valid(prev) then
-    vim.api.nvim_set_current_buf(prev)
-  else
-    vim.notify('No previous buffer', vim.log.levels.WARN)
-  end
-end, { desc = 'Toggle previous buffer' })
+map('n', '<leader>b', '<C-6>', { desc = 'Toggle previous buffer' })
