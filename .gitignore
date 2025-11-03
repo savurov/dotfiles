@@ -41,5 +41,6 @@ Vial/
 
 
 
-.store.json
-.store.time
+**/store.json
+store.json
+**/store.time
