@@ -6,5 +6,9 @@ return { -- Useful plugin to show you pending keybinds.
     -- this setting is independent of vim.o.timeoutlen
     delay = 0,
     preset = 'helix',
+    spec = {
+      { '<leader>s', group = 'search' },
+      { '<leader>d', group = 'debug' },
+    },
   },
 }

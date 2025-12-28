@@ -70,23 +70,5 @@ return {
         env = { PYTHONPATH = vim.fn.getcwd() },
       },
     }
-
-    -- Клавиши (используют локальный dap)
-    local map = vim.keymap.set
-    local opts = { noremap = true, silent = true }
-
-    map('n', '<leader>dc', dap.continue, vim.tbl_extend('force', opts, { desc = 'DAP: Continue / Start' }))
-    map('n', '<leader>di', dap.step_into, vim.tbl_extend('force', opts, { desc = 'DAP: Step Into' }))
-    map('n', '<leader>dv', dap.step_over, vim.tbl_extend('force', opts, { desc = 'DAP: Step Over' }))
-    map('n', '<leader>do', dap.step_out, vim.tbl_extend('force', opts, { desc = 'DAP: Step Out' }))
-    map('n', '<leader>db', dap.toggle_breakpoint, vim.tbl_extend('force', opts, { desc = 'DAP: Toggle Breakpoint' }))
-    map('n', '<leader>B', function()
-      dap.set_breakpoint(vim.fn.input 'Condition: ')
-    end, vim.tbl_extend('force', opts, { desc = 'DAP: Conditional Breakpoint' }))
-    map('n', '<leader>du', function()
-      dapui.toggle()
-    end, vim.tbl_extend('force', opts, { desc = 'DAP: Toggle UI' }))
-    map('n', '<leader>dr', dap.restart, vim.tbl_extend('force', opts, { desc = 'DAP: Restart Session' }))
-    map('n', '<leader>dq', dap.terminate, vim.tbl_extend('force', opts, { desc = 'DAP: Stop / Terminate' }))
   end,
 }

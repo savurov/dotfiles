@@ -22,7 +22,7 @@ map('v', '<C-c>', '"+y', 'ctrl+c')
 map('n', '<leader>q', '<cmd>qa<CR>', 'Quit')
 
 --====== Neo-tree  =====
-map('n', '<leader>e', '<cmd>Neotree toggle<CR>', 'Toggle Neo-tree')
+map('n', '<leader>e', '<cmd>Neotree toggle<CR>', 'nEotree')
 
 -- ===== Telescope =====
 local tb = require 'telescope.builtin'
@@ -47,11 +47,11 @@ map('n', '<leader>sc', function()
 end, '[s]earch [c]onfig files')
 
 -- ===== LSP =====
-map('n', '<leader>h', vim.lsp.buf.hover, '[h]over info')
-map('n', 'gd', vim.lsp.buf.definition, 'Go to [d]efinition')
-map('n', '<leader>d', vim.diagnostic.open_float, 'Show [d]iagnostics popup')
-map('n', 'gr', tb.lsp_references, '[g]oto [r]eferences')
-map('n', '<leader>r', vim.lsp.buf.rename, 'Rename symbol')
+map('n', '<leader>h', vim.lsp.buf.hover, 'Hover info')
+map('n', 'gd', vim.lsp.buf.definition, 'go to Definition')
+map('n', '<leader>w', vim.diagnostic.open_float, 'show Warning')
+map('n', 'gr', tb.lsp_references, 'go to References')
+map('n', '<leader>r', vim.lsp.buf.rename, 'Rename')
 map('n', '<leader>c', vim.lsp.buf.code_action, 'Code action')
 
 -- Инсерт-комплишн (работает с nvim-cmp, а иначе пробует lsp.buf.completion)
@@ -62,7 +62,25 @@ map('i', '<C-Space>', function()
   elseif vim.lsp.buf.completion then
     vim.lsp.buf.completion()
   end
-end, 'Trigger completion')
+end, 'completion')
 
-map('n', '<leader>gg', '<cmd>LazyGit<cr>', 'LazyGit (float)')
-map('n', '<leader>b', '<C-6>', { desc = 'Toggle previous buffer' })
+map('n', '<leader>g', '<cmd>LazyGit<cr>', 'lazyGit')
+map('n', '<leader>b', '<C-6>', { desc = 'back' })
+
+-- ===== DAP ======
+local dap = require 'dap'
+local dapui = require 'dapui'
+
+map('n', '<leader>dc', dap.continue, 'DAP: Continue')
+map('n', '<leader>di', dap.step_into, 'DAP: step Into')
+map('n', '<leader>do', dap.step_out, 'DAP: step Out')
+map('n', '<leader>dv', dap.step_over, 'DAP: step oVer')
+map('n', '<leader>db', dap.toggle_breakpoint, 'DAP: toggle Breakpoint')
+map('n', '<leader>dB', function()
+  dap.set_breakpoint(vim.fn.input 'Condition: ')
+end, 'DAP: conditional Breakpoint')
+map('n', '<leader>du', function()
+  dapui.toggle()
+end, 'DAP: Toggle [u]i')
+map('n', '<leader>dr', dap.restart, 'DAP: Restart session')
+map('n', '<leader>dq', dap.terminate, 'DAP: Quit')
