@@ -3,7 +3,7 @@ return {
   opts = {
     lsp = {
       signature = {
-        enabled = true,
+        enabled = false,
         opts = {
           size = {
             max_width = 60,
