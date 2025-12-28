@@ -1,6 +1,4 @@
 return {
-
-  -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
@@ -83,6 +81,7 @@ return {
 
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
+
       vim.diagnostic.config {
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
@@ -106,7 +105,7 @@ return {
 
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         basedpyright = {
           settings = {
             basedpyright = {
@@ -126,9 +125,10 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
-
+        cssls = {},
+        tailwindcss = {},
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
