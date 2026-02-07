@@ -37,10 +37,18 @@ uv/
 Postman/
 Code/
 Vial/
-
-
-
+org.encroissant.app/
+nextjs-nodejs/
+create-next-app-nodejs/
+libreoffice/
+ibus/
+go/
+menus/
+retroarch/
 
 **/store.json
 **/store.time
 **/store.lock
+zoom.conf
+zoomus.conf
+
