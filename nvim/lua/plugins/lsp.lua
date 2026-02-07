@@ -107,6 +107,7 @@ return {
         -- clangd = {},
         gopls = {},
         basedpyright = {
+          disableOrganizeImports = true,
           settings = {
             basedpyright = {
               analysis = {
@@ -148,7 +149,6 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua',
-        'ruff',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

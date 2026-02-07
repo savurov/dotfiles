@@ -53,6 +53,13 @@ return {
           sort_mru = true,
           ignore_current_buffer = true,
         },
+        help_tags = {
+          mappings = {
+            i = {
+              ['<CR>'] = 'file_vsplit', -- to open help in vertical tab not horizontal
+            },
+          },
+        },
       },
       extensions = {
         ['ui-select'] = require('telescope.themes').get_dropdown(),
