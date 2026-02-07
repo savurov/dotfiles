@@ -28,3 +28,5 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 vim.o.wildmenu = true
 vim.o.termguicolors = true
+
+vim.o.undofile = true
