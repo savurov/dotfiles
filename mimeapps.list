@@ -1,4 +1,3 @@
-
 [Default Applications]
 text/html=google-chrome.desktop
 x-scheme-handler/http=google-chrome.desktop
@@ -9,3 +8,8 @@ image/png=org.gnome.Loupe.desktop
 image/jpeg=org.gnome.Loupe.desktop
 image/gif=org.gnome.Loupe.desktop
 x-scheme-handler/postman=Postman.desktop
+text/csv=org.libreoffice.LibreOffice.calc.desktop
+x-scheme-handler/terminal=kitty.desktop
+
+[Added Associations]
+text/csv=org.libreoffice.LibreOffice.calc.desktop;
