@@ -6,7 +6,7 @@ set $right l
 set $term kitty
 set $rofi_cmd rofi \
         -terminal '$term'
-set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
+set $menu $rofi_cmd -show drun
 
 ### Output configuration
 output * bg /home/hijack/Pictures/wallpaper2.jpg fill
@@ -55,10 +55,13 @@ bindsym --to-code $mod+c exec ~/.config/sway/scripts/gpt.sh
 bindsym --to-code $mod+f exec ~/.config/sway/scripts/chrome.sh
 bindsym --to-code $mod+v exec ~/.config/sway/scripts/nvim.sh
 bindsym --to-code $mod+b exec ~/.config/sway/scripts/nvim2.sh
+bindsym --to-code $mod+n exec ~/.config/sway/scripts/notion.sh
 
 # Switch to workspace
 bindsym --to-code $mod+z workspace number 1
 bindsym --to-code $mod+x workspace number 2
+bindsym --to-code $mod+w workspace number 3
+bindsym --to-code $mod+e workspace number 4
 # Move focused container to workspace
 bindsym --to-code $mod+Shift+z move container to workspace number 1
 bindsym --to-code $mod+Shift+x move container to workspace number 2
@@ -66,7 +69,6 @@ bindsym --to-code $mod+Shift+x move container to workspace number 2
 bindsym --to-code $mod+Shift+s splith
 bindsym --to-code $mod+s splitv
 
-bindsym --to-code $mod+w focus mode_toggle
 
 include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
 
@@ -99,6 +101,5 @@ bindsym --to-code $mod+o exec ~/.config/sway/brightness/brightness.py down
 
 # ~/.config/sway/config
 bindsym $mod+a move workspace to output left
-bindsym $mod+Shift+a move workspace to output left
 
 exec_always ~/.config/sway/scripts/onfocus-layout.sh &
