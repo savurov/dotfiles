@@ -20,6 +20,7 @@ map('n', '<C-j>', '<C-w><C-j>', 'Move focus down')
 map('n', '<C-k>', '<C-w><C-k>', 'Move focus up')
 map('v', '<C-c>', '"+y', 'ctrl+c')
 map('n', '<leader>q', '<cmd>qa<CR>', 'Quit')
+map('n', '<leader>lr', '<cmd>LspRestart<CR>', 'Restart LSP')
 
 --====== Neo-tree  =====
 map('n', '<leader>e', '<cmd>Neotree toggle<CR>', 'nEotree')
