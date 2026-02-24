@@ -65,7 +65,10 @@ map('i', '<C-Space>', function()
   end
 end, 'completion')
 
-map('n', '<leader>g', '<cmd>LazyGit<cr>', 'lazyGit')
+map('n', '<leader>g', function()
+  vim.g.lazygit_last_win = vim.api.nvim_get_current_win()
+  vim.cmd.LazyGit()
+end, 'lazyGit')
 map('n', '<leader>b', '<C-6>', { desc = 'back' })
 
 -- ===== DAP ======

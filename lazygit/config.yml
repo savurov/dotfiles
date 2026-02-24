@@ -1,0 +1,3 @@
+os:
+  edit: '/home/hijack/.config/lazygit/open_changed_in_nvim.sh "{{filename}}" "{{line}}"'
+  editAtLine: '/home/hijack/.config/lazygit/open_changed_in_nvim.sh "{{filename}}" "{{line}}"'
