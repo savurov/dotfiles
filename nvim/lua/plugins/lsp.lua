@@ -85,15 +85,13 @@ return {
       vim.diagnostic.config {
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
+        underline = true,
+        signs = {
+          severity = { min = vim.diagnostic.severity.ERROR },
           text = {
-            [vim.diagnostic.severity.ERROR] = '󰅚 ',
-            [vim.diagnostic.severity.WARN] = '󰀪 ',
-            [vim.diagnostic.severity.INFO] = '󰋽 ',
-            [vim.diagnostic.severity.HINT] = '󰌶 ',
+            [vim.diagnostic.severity.ERROR] = vim.g.have_nerd_font and '󰅚 ' or 'E ',
           },
-        } or {},
+        },
         virtual_text = false,
       }
 
