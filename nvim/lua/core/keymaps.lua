@@ -72,19 +72,24 @@ end, 'lazyGit')
 map('n', '<leader>b', '<C-6>', { desc = 'back' })
 
 -- ===== DAP ======
-local dap = require 'dap'
-local dapui = require 'dapui'
+local ok_dap, dap = pcall(require, 'dap')
+local ok_dapui, dapui = pcall(require, 'dapui')
 
-map('n', '<leader>dc', dap.continue, 'DAP: Continue')
-map('n', '<leader>di', dap.step_into, 'DAP: step Into')
-map('n', '<leader>do', dap.step_out, 'DAP: step Out')
-map('n', '<leader>dv', dap.step_over, 'DAP: step oVer')
-map('n', '<leader>db', dap.toggle_breakpoint, 'DAP: toggle Breakpoint')
-map('n', '<leader>dB', function()
-  dap.set_breakpoint(vim.fn.input 'Condition: ')
-end, 'DAP: conditional Breakpoint')
-map('n', '<leader>du', function()
-  dapui.toggle()
-end, 'DAP: Toggle [u]i')
-map('n', '<leader>dr', dap.restart, 'DAP: Restart session')
-map('n', '<leader>dq', dap.terminate, 'DAP: Quit')
+if ok_dap then
+  map('n', '<leader>dc', dap.continue, 'DAP: Continue')
+  map('n', '<leader>di', dap.step_into, 'DAP: step Into')
+  map('n', '<leader>do', dap.step_out, 'DAP: step Out')
+  map('n', '<leader>dv', dap.step_over, 'DAP: step oVer')
+  map('n', '<leader>db', dap.toggle_breakpoint, 'DAP: toggle Breakpoint')
+  map('n', '<leader>dB', function()
+    dap.set_breakpoint(vim.fn.input 'Condition: ')
+  end, 'DAP: conditional Breakpoint')
+  map('n', '<leader>dr', dap.restart, 'DAP: Restart session')
+  map('n', '<leader>dq', dap.terminate, 'DAP: Quit')
+end
+
+if ok_dapui then
+  map('n', '<leader>du', function()
+    dapui.toggle()
+  end, 'DAP: Toggle [u]i')
+end
