@@ -10,7 +10,12 @@ return {
     },
     build = ':PympleBuild',
     config = function()
-      require('pymple').setup()
+      require('pymple').setup {
+        logging = {
+          file = { enabled = false },
+          console = { enabled = false },
+        },
+      }
     end,
   },
 }

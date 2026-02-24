@@ -9,8 +9,13 @@ return {
   },
 
   config = function()
-    local dap = require 'dap'
-    local dapui = require 'dapui'
+    local ok_dap, dap = pcall(require, 'dap')
+    if not ok_dap then
+      vim.notify('nvim-dap is not available', vim.log.levels.WARN)
+      return
+    end
+
+    local ok_dapui, dapui = pcall(require, 'dapui')
 
     -- Mason DAP
     require('mason-nvim-dap').setup {
@@ -21,21 +26,28 @@ return {
 
     -- UI и виртуальные значения
     require('nvim-dap-virtual-text').setup { commented = true }
-    dapui.setup()
+    if ok_dapui then
+      dapui.setup()
 
-    -- Автооткрытие/закрытие UI
-    dap.listeners.after.event_initialized['dapui_config'] = function()
-      dapui.open()
-    end
-    dap.listeners.before.event_terminated['dapui_config'] = function()
-      dapui.close()
-    end
-    dap.listeners.before.event_exited['dapui_config'] = function()
-      dapui.close()
+      -- Автооткрытие/закрытие UI
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
+    else
+      vim.notify('nvim-dap-ui unavailable (check nvim-nio install/load)', vim.log.levels.WARN)
     end
 
     -- Python DAP (использует debugpy)
-    require('dap-python').setup 'uv'
+    local ok_dap_python, dap_python = pcall(require, 'dap-python')
+    if ok_dap_python then
+      dap_python.setup 'uv'
+    end
 
     -- Конфигурации запуска
     dap.configurations.python = {
