@@ -23,7 +23,14 @@ map('n', '<leader>q', '<cmd>qa<CR>', 'Quit')
 map('n', '<leader>lr', '<cmd>LspRestart<CR>', 'Restart LSP')
 
 --====== Neo-tree  =====
-map('n', '<leader>e', '<cmd>Neotree toggle<CR>', 'nEotree')
+map('n', '<leader>e', function()
+  require('neo-tree.command').execute {
+    toggle = true,
+    source = 'filesystem',
+    position = 'left',
+    reveal = true,
+  }
+end, 'nEotree')
 
 -- ===== Telescope =====
 local tb = require 'telescope.builtin'

@@ -10,6 +10,13 @@ return {
     lazy = false,
     opts = {
       close_if_last_window = true,
+      enable_git_status = false,
+      filesystem = {
+        follow_current_file = {
+          enabled = true,
+          leave_dirs_open = false,
+        },
+      },
 
       window = {
         width = 30,
