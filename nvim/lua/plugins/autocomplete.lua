@@ -80,6 +80,17 @@ return { -- Autocompletion
     fuzzy = { implementation = 'lua' },
 
     -- Shows a signature help window while you type arguments for a function
-    signature = { enabled = true, auto_show = false },
+    signature = {
+      enabled = true,
+      trigger = {
+        enabled = true,
+        show_on_keyword = false,
+        show_on_trigger_character = true,
+        show_on_insert = false,
+        show_on_insert_on_trigger_character = true,
+        show_on_accept = false,
+        show_on_accept_on_trigger_character = true,
+      },
+    },
   },
 }
