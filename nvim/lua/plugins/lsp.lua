@@ -90,6 +90,9 @@ return {
           severity = { min = vim.diagnostic.severity.ERROR },
           text = {
             [vim.diagnostic.severity.ERROR] = vim.g.have_nerd_font and '󰅚 ' or 'E ',
+            [vim.diagnostic.severity.WARN] = vim.g.have_nerd_font and '󰀪 ' or 'W ',
+            [vim.diagnostic.severity.INFO] = vim.g.have_nerd_font and '󰋽 ' or 'I ',
+            [vim.diagnostic.severity.HINT] = vim.g.have_nerd_font and '󰌶 ' or 'H ',
           },
         },
         virtual_text = false,
@@ -148,6 +151,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua',
+        'ruff',
         'prettierd',
         'prettier',
       })
