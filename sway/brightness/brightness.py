@@ -76,9 +76,34 @@ def apply_mode(mode: int, presets: dict):
 
 
 def main():
-    step = 1 if sys.argv[1] == "up" else -1
-    if sys.argv[1] == "current":
+    if len(sys.argv) < 2:
+        print("Usage: brightness.py [up|down|current|set <mode>]", file=sys.stderr)
+        sys.exit(1)
+
+    cmd = sys.argv[1]
+
+    if cmd == "up":
+        step = 1
+        explicit_mode = None
+    elif cmd == "down":
+        step = -1
+        explicit_mode = None
+    elif cmd == "current":
         step = 0
+        explicit_mode = None
+    elif cmd == "set":
+        if len(sys.argv) < 3:
+            print("Usage: brightness.py set <mode>", file=sys.stderr)
+            sys.exit(1)
+        try:
+            explicit_mode = int(sys.argv[2])
+        except ValueError:
+            print("Mode must be an integer", file=sys.stderr)
+            sys.exit(1)
+        step = 0
+    else:
+        print(f"Unknown command: {cmd}", file=sys.stderr)
+        sys.exit(1)
 
     presets = load_presets()
 
@@ -90,7 +115,11 @@ def main():
             sys.exit(0)
 
         current_mode = load_state()
-        new_mode = max(0, min(9, current_mode + step))
+
+        if cmd == "set":
+            new_mode = max(0, min(9, explicit_mode))
+        else:
+            new_mode = max(0, min(9, current_mode + step))
 
         # Debounce
         last_time_file = STATE_FILE.with_suffix(".time")

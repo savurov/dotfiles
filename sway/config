@@ -119,3 +119,5 @@ set $screen_timeout 0
 
 exec_always pkill -x swayidle
 exec_always swaymsg "output * power on"
+
+exec_always sh -c 'sleep 1; ~/.config/sway/brightness/brightness.py set 4'
