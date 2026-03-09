@@ -1,34 +1,37 @@
 * {
   font-family: JetbrainsMono Nerd Font;
-  font-size: 14px;
+  font-size: 13px;
   min-height: 0;
   padding-right: 2px;
   padding-left: 2px;
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 #waybar {
   background: transparent;
-  color: #c6d0f5;
-  margin: 2px 0px;
+  color: #d8dee9;
+  margin: 2px 0;
 }
 
 #workspaces {
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 5px;
-  background: #101010;
+  background: rgba(16, 18, 24, 0.82);
   margin-left: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #workspaces button {
-  color: #babbf1;
-  border-radius: 5px;
-  padding: 0.4rem;
+  color: #94a3b8;
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid transparent;
 }
 
 #workspaces button.focused {
-  color: #ea999c;
-  border-radius: 5px;
+  color: #dbeafe;
+  background: rgba(122, 162, 247, 0.08);
+  border: 1px solid #7aa2f7;
 }
 
 button {
@@ -36,8 +39,8 @@ button {
 }
 
 #workspaces button:hover {
-  background: #1e1e1e;
-  border: 0px solid transparent;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0 solid transparent;
 }
 
 #language,
@@ -51,30 +54,60 @@ button {
 #custom-memory,
 #custom-brightness,
 #temperature {
-  background-color: #101010;
-  padding: 0.5rem 1rem;
+  background: rgba(16, 18, 24, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.55rem 0.95rem;
   margin: 5px 0;
 }
 
 #clock {
-  border-radius: 5px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #b7c4d6;
+  border-color: rgba(122, 162, 247, 0.45);
 }
 
-
 #pulseaudio {
-  color: #ea999c;
+  color: #fda4af;
+}
+
+#network {
+  color: #7dd3fc;
+}
+
+#network.disconnected {
+  color: #fda4af;
+}
+
+#cpu {
+  color: #86efac;
+  min-width: 72px;
+}
+
+#temperature {
+  color: #fdba74;
+}
+
+#custom-brightness {
+  color: #fcd34d;
+}
+
+#custom-memory {
+  color: #c4b5fd;
 }
 
 #language,
 #custom-kbd {
   font-weight: bold;
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 10px 0 0 10px;
+  color: #f8fafc;
 }
 
 .modules-right > widget:only-child > #custom-kbd {
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 #tray {
-  border-radius: 0px 5px 5px 0px;
+  border-radius: 0 10px 10px 0;
+  padding-right: 1.1rem;
 }

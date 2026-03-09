@@ -10,6 +10,7 @@
     "modules-right": [
       "custom/kbd",
       "pulseaudio",
+      "network",
       "cpu",
       "custom/memory",
       "temperature",
@@ -18,20 +19,20 @@
     ],
 
     "tray": {
-      "icon-size": 16,
-      "spacing": 6
+      "icon-size": 18,
+      "spacing": 10
     },
 
     "clock": {
       "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-      "format": "{:%d/%m - %H:%M}",
+      "format": "{:%d %b  %H:%M}",
       "interval": 1
     },
 
     "network": {
-      "format-wifi": "󰤢 ",
-      "format-ethernet": "󰈀 ",
-      "format-disconnected": "󰤠 No Network",
+      "format-wifi": "󰖩  {signalStrength}%",
+      "format-ethernet": "󰈁  wired",
+      "format-disconnected": "󰖪  offline",
       "interval": 5,
       "tooltip": false
     },
@@ -43,7 +44,7 @@
 
     "cpu": {
       "interval": 1,
-      "format": "  {usage}%"
+      "format": "󰍛  {usage}%"
     },
 
     "custom/memory": {
@@ -54,15 +55,15 @@
 
     "pulseaudio": {
       "format": "{icon} {volume}%",
-      "format-muted": "",
+      "format-muted": "󰝟  mute",
       "format-icons": {
-        "default": ["", "", " "]
+        "default": ["󰕿", "󰖀", "󰕾"]
       },
       "on-click": "pavucontrol"
     },
 
     "custom/brightness": {
-      "format": "  {}0%",
+      "format": "󰃟  {}0%",
       "interval": 1,
       "exec": "jq -r '.mode' ~/.config/sway/brightness/store.json 2>/dev/null || echo 0",
       "tooltip": false
@@ -87,7 +88,7 @@
 
     "clock": {
       "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-      "format": "{:%d/%m - %H:%M}",
+      "format": "{:%d %b  %H:%M}",
       "interval": 1
     },
 
