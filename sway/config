@@ -1,0 +1,121 @@
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot
+set $rofi_cmd wofi \
+        -terminal '$term'
+set $menu $rofi_cmd --show drun
+
+exec_always --no-startup-id sh -c 'pkill -x waybar; waybar'
+# kill swayidle to prevent sleeping mode
+exec_always pkill -x swayidle
+
+### Output configuration
+output * dpms on
+
+output * bg /home/hijack/Pictures/wallpaper2.jpg fill
+output * adaptive_sync on
+output HDMI-A-1 {
+    resolution 1920x1080@74.986Hz
+    transform 90
+    position 1920 0
+    scale 1
+}
+
+output HDMI-A-2 {
+    resolution 1920x1080@100.047Hz
+    position 0 0
+    scale 1
+}
+
+
+### Keymaps
+bindsym --to-code $mod+Return exec $term
+bindsym --to-code $mod+q kill
+bindsym --to-code $mod+d exec $menu
+floating_modifier $mod normal
+bindsym --to-code $mod+Shift+c reload
+bindsym --to-code $mod+Shift+e exec swaymsg exit
+# Move your focus around
+bindsym --to-code $mod+$left  focus left;  exec swaymsg input type:keyboard xkb_switch_layout 0 &
+bindsym --to-code $mod+$down  focus down;  exec swaymsg input type:keyboard xkb_switch_layout 0 &
+bindsym --to-code $mod+$up    focus up;    exec swaymsg input type:keyboard xkb_switch_layout 0 &
+bindsym --to-code $mod+$right focus right; exec swaymsg input type:keyboard xkb_switch_layout 0 &
+
+# Or use $mod+[up|down|left|right]
+bindsym --to-code $mod+Right resize shrink width 40px
+bindsym --to-code $mod+Left resize grow width 40px
+bindsym --to-code $mod+Up resize grow height 40px
+bindsym --to-code $mod+Down resize shrink height 40px
+
+# Move the focused window with the same, but add Shift
+bindsym --to-code $mod+Shift+$left move left
+bindsym --to-code $mod+Shift+$down move down
+bindsym --to-code $mod+Shift+$up move up
+bindsym --to-code $mod+Shift+$right move right
+
+### Workspaces:
+bindsym --to-code $mod+c exec ~/.config/sway/scripts/gpt.sh
+bindsym --to-code $mod+f exec ~/.config/sway/scripts/chrome.sh
+bindsym --to-code $mod+v exec ~/.config/sway/scripts/nvim.sh
+bindsym --to-code $mod+b exec ~/.config/sway/scripts/nvim2.sh
+bindsym --to-code $mod+n exec ~/.config/sway/scripts/notion.sh
+
+# Switch to workspace
+bindsym --to-code $mod+z workspace number 1
+bindsym --to-code $mod+x workspace number 2
+bindsym --to-code $mod+w workspace number 3
+bindsym --to-code $mod+e workspace number 4
+# Move focused container to workspace
+bindsym --to-code $mod+Shift+z move container to workspace number 1
+bindsym --to-code $mod+Shift+x move container to workspace number 2
+
+bindsym --to-code $mod+Shift+s splith
+bindsym --to-code $mod+s splitv
+
+
+include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
+
+input type:keyboard {
+  xkb_layout "us, ru",
+  xkb_options "grp:win_space_toggle"
+}
+
+# client.focused          #ea999c #ea999c #ffffff #ea999c #ea999c
+client.focused          #7aa2f7 #7aa2f7 #ffffff #7aa2f7 #7aa2f7
+default_border pixel 1
+
+smart_gaps off
+gaps inner 5
+gaps outer 1
+
+exec /usr/libexec/polkit-mate-authentication-agent-1
+
+exec wl-paste -t text --watch clipman store --no-persist
+exec wl-paste -t text --watch sh -c 't="$(cat)"; [ -z "${t//[[:space:]]/}" ] && exit 0; s="$(printf "%.15s" "$t")"; [ ${#t} -gt 10 ] && s="$s…"; notify-send "Clipboard updated" "$s"; printf "%s\n" "$t" | clipman store --no-persist'
+
+
+
+# Take area screenshot with Mod+i
+bindsym --to-code $mod+i exec grim -g "$(slurp)" - | wl-copy
+
+exec mako
+bindsym --to-code $mod+p exec ~/.config/sway/brightness/brightness.py up
+bindsym --to-code $mod+o exec ~/.config/sway/brightness/brightness.py down
+
+
+# ~/.config/sway/config
+bindsym $mod+a move workspace to output left
+
+exec_always ~/.config/sway/scripts/onfocus-layout.sh &
+
+for_window [workspace="4"] floating enable
+
+# disable Fedora swayidle
+set $lock_timeout 0
+set $screen_timeout 0
+
+exec_always pkill -x swayidle
+exec_always swaymsg "output * power on"

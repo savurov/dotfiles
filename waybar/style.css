@@ -1,0 +1,80 @@
+* {
+  font-family: JetbrainsMono Nerd Font;
+  font-size: 14px;
+  min-height: 0;
+  padding-right: 2px;
+  padding-left: 2px;
+  padding-bottom: 0px;
+}
+
+#waybar {
+  background: transparent;
+  color: #c6d0f5;
+  margin: 2px 0px;
+}
+
+#workspaces {
+  border-radius: 5px;
+  margin: 5px;
+  background: #101010;
+  margin-left: 2px;
+}
+
+#workspaces button {
+  color: #babbf1;
+  border-radius: 5px;
+  padding: 0.4rem;
+}
+
+#workspaces button.focused {
+  color: #ea999c;
+  border-radius: 5px;
+}
+
+button {
+  background: transparent;
+}
+
+#workspaces button:hover {
+  background: #1e1e1e;
+  border: 0px solid transparent;
+}
+
+#language,
+#custom-kbd,
+#tray,
+#clock,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#custom-memory,
+#custom-brightness,
+#temperature {
+  background-color: #101010;
+  padding: 0.5rem 1rem;
+  margin: 5px 0;
+}
+
+#clock {
+  border-radius: 5px;
+}
+
+
+#pulseaudio {
+  color: #ea999c;
+}
+
+#language,
+#custom-kbd {
+  font-weight: bold;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.modules-right > widget:only-child > #custom-kbd {
+  border-radius: 5px;
+}
+
+#tray {
+  border-radius: 0px 5px 5px 0px;
+}

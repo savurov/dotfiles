@@ -1,0 +1,17 @@
+os:
+  edit: '/home/hijack/.config/lazygit/open_changed_in_nvim.sh "{{filename}}" "{{line}}"'
+  editAtLine: '/home/hijack/.config/lazygit/open_changed_in_nvim.sh "{{filename}}" "{{line}}"'
+gui:
+  showNumstatInFilesView: true
+  splitDiff: always
+  theme:
+    selectedLineBgColor:
+      - reverse
+      - bold
+    inactiveViewSelectedLineBgColor:
+      - reverse
+git:
+  ignoreWhitespaceInDiffView: true
+  diffContextSize: 5
+  pagers:
+    - pager: '/home/hijack/.config/lazygit/diff-pager.sh'

@@ -1,0 +1,13 @@
+add_newline = false
+format = "$directory$character"
+
+[directory]
+home_symbol = ""
+style = "bold #7aa2f7"
+truncation_length = 2
+truncation_symbol = "…/"
+format = "[$path]($style)"
+
+[character]
+success_symbol = "[/](bold #7aa2f7)"
+error_symbol = "[/](bold #7aa2f7)"

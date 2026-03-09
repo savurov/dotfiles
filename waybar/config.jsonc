@@ -1,0 +1,101 @@
+[
+  {
+    // === HDMI-A-2: main monitor (normal full bar) ===
+    "output": "HDMI-A-2",
+    "layer": "top",
+    "position": "top",
+
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": [
+      "custom/kbd",
+      "pulseaudio",
+      "cpu",
+      "custom/memory",
+      "temperature",
+      "custom/brightness",
+      "tray"
+    ],
+
+    "tray": {
+      "icon-size": 16,
+      "spacing": 6
+    },
+
+    "clock": {
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "format": "{:%d/%m - %H:%M}",
+      "interval": 1
+    },
+
+    "network": {
+      "format-wifi": "󰤢 ",
+      "format-ethernet": "󰈀 ",
+      "format-disconnected": "󰤠 No Network",
+      "interval": 5,
+      "tooltip": false
+    },
+
+    "temperature": {
+      "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+      "interval": 1
+    },
+
+    "cpu": {
+      "interval": 1,
+      "format": "  {usage}%"
+    },
+
+    "custom/memory": {
+      "interval": 5,
+      "return-type": "json",
+      "exec": "~/.config/waybar/scripts/memory-top5.sh"
+    },
+
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-muted": "",
+      "format-icons": {
+        "default": ["", "", " "]
+      },
+      "on-click": "pavucontrol"
+    },
+
+    "custom/brightness": {
+      "format": "  {}0%",
+      "interval": 1,
+      "exec": "jq -r '.mode' ~/.config/sway/brightness/store.json 2>/dev/null || echo 0",
+      "tooltip": false
+    },
+
+    "custom/kbd": {
+      "interval": 1,
+      "exec": "swaymsg -t get_inputs | jq -r '[.[]? | select(.type==\"keyboard\") | .xkb_active_layout_name][0] // \"\" | ascii_downcase | if test(\"russian|рус\") then \"ru\" elif test(\"english|англ\") then \"us\" else .[0:2] end'",
+      "format": "{}",
+      "tooltip": false
+    }
+  },
+  {
+    // === HDMI-A-1: vertical monitor (no right modules) ===
+    "output": "HDMI-A-1",
+    "layer": "top",
+    "position": "top",
+
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/kbd"],
+
+    "clock": {
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "format": "{:%d/%m - %H:%M}",
+      "interval": 1
+    },
+
+    "custom/kbd": {
+      "interval": 1,
+      "exec": "swaymsg -t get_inputs | jq -r '[.[]? | select(.type==\"keyboard\") | .xkb_active_layout_name][0] // \"\" | ascii_downcase | if test(\"russian|рус\") then \"ru\" elif test(\"english|англ\") then \"us\" else .[0:2] end'",
+      "format": "{}",
+      "tooltip": false
+    }
+  }
+]
