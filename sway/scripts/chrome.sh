@@ -1,18 +1,18 @@
 set -euo pipefail
 
 WORKSPACE="Firefox"
-APP_CMD="google-chrome-stable"
+APP_CMD="firefox"
 
-APP_ID="google-chrome"
+APP_ID="firefox-default"
 
 ARGS=(
-  --profile-directory=Default
-  --ozone-platform=wayland
-  --hide-crash-restore-bubble
+  --new-instance
+  -P "default"
+  --name firefox-default
 )
-
 # Switch to workspace
 swaymsg workspace "$WORKSPACE" >/dev/null
+
 
 # Check if Chrome already exists in this workspace
 if swaymsg -t get_tree | jq -r --arg ws "$WORKSPACE" --arg app_id "$APP_ID" '

@@ -1,0 +1,278 @@
+#!/usr/bin/env python3
+import json
+import subprocess
+import sys
+import time
+from fcntl import flock, LOCK_EX, LOCK_NB
+from pathlib import Path
+
+import dbus
+
+CONFIG_DIR = Path.home() / ".config/sway/brightness"
+PRESETS_FILE = CONFIG_DIR / "presets.json"
+STORE_FILE = CONFIG_DIR / "store.json"
+LOCK_FILE = CONFIG_DIR / "store.lock"
+TIME_FILE = CONFIG_DIR / "store.time"
+
+SERVICE = "com.ddcutil.DdcutilService"
+OBJECT = "/com/ddcutil/DdcutilObject"
+INTERFACE = "com.ddcutil.DdcutilInterface"
+
+# presets.json bus ids -> ddcutil-service display ids
+DISPLAY_MAP = {
+    "2": 1,  # ASUS VZ24EHE
+    "3": 2,  # VA24EHF
+}
+
+DEFAULT_MODE = 5
+MIN_MODE = 0
+MAX_MODE = 9
+
+# Не чаще чем раз в 0.12 сек для обычных user actions
+MIN_APPLY_INTERVAL = 0.06
+
+# Пауза между одинаковыми типами команд, чтобы не спамить DDC
+SLEEP_BETWEEN_WRITES = 0.05
+
+
+def ensure_dir() -> None:
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def load_presets() -> dict:
+    try:
+        return json.loads(PRESETS_FILE.read_text())
+    except Exception as e:
+        raise SystemExit(f"cannot read {PRESETS_FILE}: {e}")
+
+
+def load_store() -> dict:
+    if STORE_FILE.exists():
+        try:
+            data = json.loads(STORE_FILE.read_text())
+            if isinstance(data, dict):
+                return {"mode": int(data.get("mode", DEFAULT_MODE))}
+        except Exception:
+            pass
+    return {"mode": DEFAULT_MODE}
+
+
+def save_store(mode: int) -> None:
+    ensure_dir()
+    STORE_FILE.write_text(json.dumps({"mode": mode}, indent=2))
+
+
+def clamp_mode(mode: int) -> int:
+    return max(MIN_MODE, min(MAX_MODE, mode))
+
+
+def should_rate_limit() -> bool:
+    now = time.time()
+    if TIME_FILE.exists():
+        try:
+            last = float(TIME_FILE.read_text().strip())
+            if now - last < MIN_APPLY_INTERVAL:
+                return True
+        except Exception:
+            pass
+    TIME_FILE.write_text(str(now))
+    return False
+
+
+def get_service():
+    bus = dbus.SessionBus()
+    obj = bus.get_object(SERVICE, OBJECT)
+    return dbus.Interface(obj, dbus_interface=INTERFACE)
+
+
+def set_vcp(iface, display_id: int, code: int, value: int) -> None:
+    iface.SetVcp(
+        dbus.Int32(display_id),
+        dbus.String(""),
+        dbus.Byte(code),
+        dbus.UInt16(value),
+        dbus.UInt32(0),
+    )
+
+
+def get_mode_values(presets: dict, mode: int) -> dict[str, dict[str, int]]:
+    mode_data = presets.get("modes", {}).get(str(mode))
+    if mode_data is None:
+        raise SystemExit(f"mode {mode} not found in presets")
+    return mode_data
+
+
+def get_mode_value(mode_data: dict, bus_id: str, key: str) -> int | None:
+    if bus_id not in mode_data:
+        return None
+    value = mode_data[bus_id].get(key)
+    if value is None:
+        return None
+    return int(value)
+
+
+def apply_rgb(presets: dict) -> None:
+    iface = get_service()
+    rgb = presets.get("rgb", {})
+
+    # R on all displays
+    for bus_id, display_id in DISPLAY_MAP.items():
+        if bus_id in rgb:
+            set_vcp(iface, display_id, 0x16, int(rgb[bus_id]["r"]))
+    time.sleep(SLEEP_BETWEEN_WRITES)
+
+    # G on all displays
+    for bus_id, display_id in DISPLAY_MAP.items():
+        if bus_id in rgb:
+            set_vcp(iface, display_id, 0x18, int(rgb[bus_id]["g"]))
+    time.sleep(SLEEP_BETWEEN_WRITES)
+
+    # B on all displays
+    for bus_id, display_id in DISPLAY_MAP.items():
+        if bus_id in rgb:
+            set_vcp(iface, display_id, 0x1A, int(rgb[bus_id]["b"]))
+    time.sleep(SLEEP_BETWEEN_WRITES)
+
+
+def apply_mode(
+    presets: dict, old_mode: int | None, new_mode: int, *, force_all: bool = False
+) -> None:
+    iface = get_service()
+    new_data = get_mode_values(presets, new_mode)
+    old_data = get_mode_values(presets, old_mode) if old_mode is not None else {}
+
+    # 1) brightness on all displays where changed
+    changed_any = False
+    for bus_id, display_id in DISPLAY_MAP.items():
+        new_b = get_mode_value(new_data, bus_id, "b")
+        old_b = get_mode_value(old_data, bus_id, "b") if old_mode is not None else None
+        if new_b is None:
+            continue
+        if force_all or old_b != new_b:
+            set_vcp(iface, display_id, 0x10, new_b)
+            changed_any = True
+    if changed_any:
+        time.sleep(SLEEP_BETWEEN_WRITES)
+
+    # 2) contrast on all displays where changed
+    changed_any = False
+    for bus_id, display_id in DISPLAY_MAP.items():
+        new_c = get_mode_value(new_data, bus_id, "c")
+        old_c = get_mode_value(old_data, bus_id, "c") if old_mode is not None else None
+        if new_c is None:
+            continue
+        if force_all or old_c != new_c:
+            set_vcp(iface, display_id, 0x12, new_c)
+            changed_any = True
+    if changed_any:
+        time.sleep(SLEEP_BETWEEN_WRITES)
+
+
+def icon_for_mode(mode: int) -> str:
+    if mode <= 2:
+        return "󰃞"
+    if mode <= 5:
+        return "󰃟"
+    return "󰃠"
+
+
+def print_waybar(mode: int) -> None:
+    payload = {
+        "text": f"{icon_for_mode(mode)} {mode * 10}%",
+        "tooltip": f"Brightness mode {mode}/9",
+        "class": f"mode-{mode}",
+        "percentage": round(mode * 100 / 9),
+    }
+    print(json.dumps(payload))
+
+
+def choose_mode_menu(current_mode: int) -> int | None:
+    items = "\n".join(str(i) for i in range(MIN_MODE, MAX_MODE + 1))
+    proc = subprocess.run(
+        ["wofi", "--dmenu", "--prompt", f"Brightness ({current_mode})"],
+        input=items,
+        text=True,
+        capture_output=True,
+    )
+    if proc.returncode != 0:
+        return None
+    value = proc.stdout.strip()
+    if not value.isdigit():
+        return None
+    return clamp_mode(int(value))
+
+
+def main() -> None:
+    ensure_dir()
+
+    if len(sys.argv) < 2:
+        raise SystemExit(
+            "usage: ddc-brightness [waybar|current|up|down|set N|menu|apply|init|rgb]"
+        )
+
+    cmd = sys.argv[1]
+    presets = load_presets()
+
+    with open(LOCK_FILE, "w") as lockf:
+        try:
+            flock(lockf, LOCK_EX | LOCK_NB)
+        except BlockingIOError:
+            raise SystemExit(0)
+
+        store = load_store()
+        current_mode = clamp_mode(int(store["mode"]))
+
+        if cmd == "waybar":
+            print_waybar(current_mode)
+            return
+
+        if cmd == "current":
+            print(current_mode)
+            return
+
+        if cmd == "rgb":
+            apply_rgb(presets)
+            return
+
+        if cmd == "init":
+            apply_rgb(presets)
+            apply_mode(presets, None, current_mode, force_all=True)
+            save_store(current_mode)
+            return
+
+        # Ниже — обычные действия пользователя, режем слишком частые вызовы
+        if should_rate_limit():
+            return
+
+        if cmd == "up":
+            new_mode = clamp_mode(current_mode + 1)
+        elif cmd == "down":
+            new_mode = clamp_mode(current_mode - 1)
+        elif cmd == "set":
+            if len(sys.argv) < 3:
+                raise SystemExit("usage: ddc-brightness set N")
+            new_mode = clamp_mode(int(sys.argv[2]))
+        elif cmd == "menu":
+            selected = choose_mode_menu(current_mode)
+            if selected is None:
+                return
+            new_mode = selected
+        elif cmd == "apply":
+            new_mode = current_mode
+        else:
+            raise SystemExit(f"unknown command: {cmd}")
+
+        if cmd == "apply":
+            apply_mode(presets, None, current_mode, force_all=True)
+            save_store(current_mode)
+            return
+
+        if new_mode == current_mode:
+            return
+
+        apply_mode(presets, current_mode, new_mode, force_all=False)
+        save_store(new_mode)
+
+
+if __name__ == "__main__":
+    main()
