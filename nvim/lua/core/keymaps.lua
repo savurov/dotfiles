@@ -12,6 +12,21 @@ local function map(mode, lhs, rhs, opt)
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
+local function ensure_lazygit_nvim_server()
+  local server = vim.v.servername
+
+  if server == nil or server == '' then
+    local ok, started = pcall(vim.fn.serverstart)
+    if ok and type(started) == 'string' and started ~= '' then
+      server = started
+    end
+  end
+
+  if server ~= nil and server ~= '' then
+    vim.fn.setenv('LAZYGIT_NVIM_SERVER', server)
+  end
+end
+
 -- ===== Общие =====
 map('n', '<Esc>', '<cmd>nohlsearch<CR>', 'Clear search highlight')
 map('n', '<C-h>', '<C-w><C-h>', 'Move focus left')
@@ -73,6 +88,7 @@ map('i', '<C-Space>', function()
 end, 'completion')
 
 map('n', '<leader>g', function()
+  ensure_lazygit_nvim_server()
   vim.g.lazygit_last_win = vim.api.nvim_get_current_win()
   vim.cmd.LazyGit()
 end, 'lazyGit')

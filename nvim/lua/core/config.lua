@@ -49,3 +49,6 @@ vim.o.swapfile = true
 vim.o.backup = true
 vim.o.writebackup = true
 vim.o.undolevels = 10000
+
+vim.o.autoread = true
+vim.o.updatetime = 300

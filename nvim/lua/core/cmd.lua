@@ -15,3 +15,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  pattern = '*',
+  command = "if mode() != 'c' | checktime | endif",
+})

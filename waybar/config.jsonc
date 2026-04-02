@@ -10,71 +10,75 @@
     "modules-right": [
       "custom/kbd",
       "pulseaudio",
-      "network",
       "cpu",
       "custom/memory",
       "temperature",
       "custom/brightness",
-      "tray"
+      "custom/notification",
+      "tray",
     ],
 
     "tray": {
       "icon-size": 18,
-      "spacing": 10
+      "spacing": 10,
     },
 
     "clock": {
       "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
       "format": "{:%d %b  %H:%M}",
-      "interval": 1
-    },
-
-    "network": {
-      "format-wifi": "󰖩  {signalStrength}%",
-      "format-ethernet": "󰈁  wired",
-      "format-disconnected": "󰖪  offline",
-      "interval": 5,
-      "tooltip": false
+      "interval": 1,
     },
 
     "temperature": {
       "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
-      "interval": 1
+      "interval": 1,
     },
 
     "cpu": {
       "interval": 1,
-      "format": "󰍛  {usage}%"
+      "format": "󰍛  {usage}%",
     },
 
     "custom/memory": {
       "interval": 5,
       "return-type": "json",
-      "exec": "~/.config/waybar/scripts/memory-top5.sh"
+      "exec": "~/.config/waybar/scripts/memory-top5.sh",
     },
 
     "pulseaudio": {
       "format": "{icon} {volume}%",
       "format-muted": "󰝟  mute",
       "format-icons": {
-        "default": ["󰕿", "󰖀", "󰕾"]
+        "default": ["󰕿", "󰖀", "󰕾"],
       },
-      "on-click": "pavucontrol"
+      "on-click": "pavucontrol",
     },
 
     "custom/brightness": {
-      "format": "󰃟  {}0%",
+      "return-type": "json",
+      "exec": "sh -c \"pct=$(jq -r '((.mode // 5) | tonumber) * 10' ~/.config/sway/brightness/store.json 2>/dev/null) && printf '{\\\"text\\\":\\\"󰃠 %s%%\\\",\\\"tooltip\\\":\\\"Brightness %s%%\\\",\\\"class\\\":\\\"brightness\\\",\\\"percentage\\\":%s}\\n' \\\"\\$pct\\\" \\\"\\$pct\\\" \\\"\\$pct\\\" || printf '%s\\n' '{\\\"text\\\":\\\"󰃠 50%\\\",\\\"tooltip\\\":\\\"Brightness 50%\\\",\\\"class\\\":\\\"brightness\\\",\\\"percentage\\\":50}'\"",
       "interval": 1,
-      "exec": "jq -r '.mode' ~/.config/sway/brightness/store.json 2>/dev/null || echo 0",
-      "tooltip": false
+      "tooltip": true,
     },
 
     "custom/kbd": {
       "interval": 1,
       "exec": "swaymsg -t get_inputs | jq -r '[.[]? | select(.type==\"keyboard\") | .xkb_active_layout_name][0] // \"\" | ascii_downcase | if test(\"russian|рус\") then \"ru\" elif test(\"english|англ\") then \"us\" else .[0:2] end'",
       "format": "{}",
-      "tooltip": false
-    }
+      "tooltip": false,
+    },
+    "sway/workspaces": {
+      "alphabetical_sort": true,
+    },
+    "custom/notification": {
+      "return-type": "json",
+      "exec-if": "which swaync-client",
+      "exec": "swaync-client -swb",
+      "format": " {}",
+      "tooltip": true,
+      "on-click": "swaync-client -t -sw",
+      "on-click-right": "swaync-client -d -sw",
+    },
   },
   {
     // === HDMI-A-1: vertical monitor (no right modules) ===
@@ -89,14 +93,17 @@
     "clock": {
       "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
       "format": "{:%d %b  %H:%M}",
-      "interval": 1
+      "interval": 1,
     },
 
     "custom/kbd": {
       "interval": 1,
       "exec": "swaymsg -t get_inputs | jq -r '[.[]? | select(.type==\"keyboard\") | .xkb_active_layout_name][0] // \"\" | ascii_downcase | if test(\"russian|рус\") then \"ru\" elif test(\"english|англ\") then \"us\" else .[0:2] end'",
       "format": "{}",
-      "tooltip": false
-    }
-  }
+      "tooltip": false,
+    },
+    "sway/workspaces": {
+      "alphabetical_sort": true,
+    },
+  },
 ]

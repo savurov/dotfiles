@@ -22,15 +22,16 @@
 }
 
 #workspaces button {
-  color: #94a3b8;
+  color: #cbd5e1;
   border-radius: 8px;
   padding: 0.4rem 0.6rem;
   border: 1px solid transparent;
+  font-weight: 600;
 }
 
 #workspaces button.focused {
-  color: #dbeafe;
-  background: rgba(122, 162, 247, 0.08);
+  color: #f8fbff;
+  background: rgba(122, 162, 247, 0.14);
   border: 1px solid #7aa2f7;
 }
 
@@ -53,6 +54,7 @@ button {
 #memory,
 #custom-memory,
 #custom-brightness,
+#custom-notification,
 #temperature {
   background: rgba(16, 18, 24, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -60,40 +62,39 @@ button {
   margin: 5px 0;
 }
 
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#custom-memory,
+#custom-brightness,
+#temperature,
+#custom-notification,
+#tray,
+#custom-kbd,
+#language {
+  color: #c4ccd8;
+}
+
 #clock {
   border-radius: 10px;
   font-weight: 700;
   color: #b7c4d6;
-  border-color: rgba(122, 162, 247, 0.45);
-}
-
-#pulseaudio {
-  color: #fda4af;
-}
-
-#network {
-  color: #7dd3fc;
+  border: none;
 }
 
 #network.disconnected {
-  color: #fda4af;
+  color: #e58f9d;
 }
 
 #cpu {
-  color: #86efac;
-  min-width: 72px;
+  min-width: 50px;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
 }
 
 #temperature {
-  color: #fdba74;
-}
-
-#custom-brightness {
-  color: #fcd34d;
-}
-
-#custom-memory {
-  color: #c4b5fd;
+  color: #d6b58a;
 }
 
 #language,
@@ -110,4 +111,8 @@ button {
 #tray {
   border-radius: 0 10px 10px 0;
   padding-right: 1.1rem;
+}
+#custom-notification {
+  font-family: "JetBrainsMono Nerd Font";
+  min-width: 18px;
 }

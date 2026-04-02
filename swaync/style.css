@@ -1,0 +1,57 @@
+@import url("/etc/xdg/swaync/style.css");
+
+:root {
+  --cc-bg: rgba(16, 18, 24, 0.92);
+  --noti-border-color: rgba(255, 255, 255, 0.08);
+  --noti-bg: 16, 18, 24;
+  --noti-bg-alpha: 0.92;
+  --noti-bg-darker: rgb(12, 14, 18);
+  --noti-bg-hover: rgb(28, 32, 40);
+  --noti-bg-focus: rgba(122, 162, 247, 0.12);
+  --noti-close-bg: rgba(255, 255, 255, 0.08);
+  --noti-close-bg-hover: rgba(255, 255, 255, 0.14);
+  --text-color: rgb(232, 237, 244);
+  --text-color-disabled: rgb(136, 146, 163);
+  --bg-selected: rgb(122, 162, 247);
+  --border-radius: 10px;
+  --notification-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --font-size-body: 13px;
+  --font-size-summary: 14px;
+}
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+}
+
+.notification-row {
+  margin: 2px 0;
+}
+
+.notification-row .notification-background {
+  padding: 4px 10px;
+}
+
+.notification-row .notification-background .notification {
+  box-shadow: var(--notification-shadow);
+}
+
+.notification-row .notification-background .notification .notification-default-action {
+  padding: 6px;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content {
+  spacing: 10px;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .summary {
+  font-weight: 700;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .body {
+  color: rgba(232, 237, 244, 0.86);
+}
+
+.close-button {
+  margin-top: 10px;
+  margin-right: 10px;
+}

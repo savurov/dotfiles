@@ -8,6 +8,29 @@ if [[ -z "$file" ]]; then
   exit 1
 fi
 
+vim_quote() {
+  printf "%s" "$1" | sed "s/'/''/g"
+}
+
+open_in_running_nvim() {
+  local server="${LAZYGIT_NVIM_SERVER:-${NVIM:-}}"
+  local file_quoted open_expr
+
+  [[ -n "$server" ]] || return 1
+
+  file_quoted="$(vim_quote "$file")"
+
+  nvim --server "$server" --remote-expr "execute(\"if winnr('\$') > 1 | close | endif\")" >/dev/null 2>&1 || return 1
+
+  open_expr="execute('drop ' . fnameescape('${file_quoted}')"
+  if [[ "$target_line" =~ ^[0-9]+$ ]] && (( target_line > 0 )); then
+    open_expr="${open_expr} . ' | call cursor(${target_line}, 1) | normal! zz'"
+  fi
+  open_expr="${open_expr})"
+
+  nvim --server "$server" --remote-expr "$open_expr" >/dev/null 2>&1
+}
+
 pick_line_from_diff() {
   local f="$1"
   (
@@ -62,7 +85,9 @@ else
 fi
 
 if [[ "$target_line" =~ ^[0-9]+$ ]] && (( target_line > 0 )); then
+  open_in_running_nvim && exit 0
   nvr --remote-wait-silent -cc "if winnr('$') > 1 | close | endif" +"$target_line" "$file" || nvim +"$target_line" "$file"
 else
+  open_in_running_nvim && exit 0
   nvr --remote-wait-silent -cc "if winnr('$') > 1 | close | endif" "$file" || nvim "$file"
 fi
