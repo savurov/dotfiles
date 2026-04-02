@@ -44,10 +44,12 @@ bindsym --to-code $mod+Shift+c reload
 bindsym --to-code $mod+Shift+e exec swaymsg exit
 
 # Move focus
-bindsym --to-code $mod+$left  focus left;  exec swaymsg input type:keyboard xkb_switch_layout 0 &
-bindsym --to-code $mod+$down  focus down;  exec swaymsg input type:keyboard xkb_switch_layout 0 &
-bindsym --to-code $mod+$up    focus up;    exec swaymsg input type:keyboard xkb_switch_layout 0 &
-bindsym --to-code $mod+$right focus right; exec swaymsg input type:keyboard xkb_switch_layout 0 &
+exec_always ~/.config/sway/scripts/onfocus-layout.sh &
+
+bindsym --to-code $mod+$left  focus left;
+bindsym --to-code $mod+$down  focus down;
+bindsym --to-code $mod+$up    focus up;
+bindsym --to-code $mod+$right focus right;
 
 # Resize
 bindsym --to-code $mod+Right resize shrink width 40px
