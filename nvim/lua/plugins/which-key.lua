@@ -7,6 +7,7 @@ return { -- Useful plugin to show you pending keybinds.
     delay = 0,
     preset = 'helix',
     spec = {
+      { '<leader>l', group = 'lsp' },
       { '<leader>s', group = 'search' },
       { '<leader>d', group = 'debug' },
     },

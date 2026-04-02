@@ -12,6 +12,8 @@ local function map(mode, lhs, rhs, opt)
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
+local autocomplete = require 'core.autocomplete'
+
 local function ensure_lazygit_nvim_server()
   local server = vim.v.servername
 
@@ -36,6 +38,7 @@ map('n', '<C-k>', '<C-w><C-k>', 'Move focus up')
 map('v', '<C-c>', '"+y', 'ctrl+c')
 map('n', '<leader>q', '<cmd>qa<CR>', 'Quit')
 map('n', '<leader>lr', '<cmd>LspRestart<CR>', 'Restart LSP')
+map('n', '<leader>lt', autocomplete.toggle, 'Toggle autocomplete')
 
 --====== Neo-tree  =====
 map('n', '<leader>e', function()
@@ -79,6 +82,12 @@ map('n', '<leader>c', vim.lsp.buf.code_action, 'Code action')
 
 -- Инсерт-комплишн (работает с nvim-cmp, а иначе пробует lsp.buf.completion)
 map('i', '<C-Space>', function()
+  local ok_blink, blink = pcall(require, 'blink.cmp')
+  if ok_blink then
+    blink.show()
+    return
+  end
+
   local ok, cmp = pcall(require, 'cmp')
   if ok then
     cmp.complete()
