@@ -125,3 +125,10 @@ if ok_dapui then
     dapui.toggle()
   end, 'DAP: Toggle [u]i')
 end
+
+vim.keymap.set('n', '<leader>f', function()
+  require('conform').format {
+    async = true,
+    lsp_fallback = true,
+  }
+end, { desc = 'Format buffer' })

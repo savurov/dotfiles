@@ -105,7 +105,12 @@ return {
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
-        -- clangd = {},
+        clangd = {
+          cmd = {
+            'clangd',
+            '--fallback-style={BasedOnStyle: LLVM, AllowShortFunctionsOnASingleLine: None}',
+          },
+        },
         basedpyright = {
           settings = {
             basedpyright = {
@@ -127,7 +132,6 @@ return {
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
         omnisharp = {},
-        clangd = {},
         --
         cssls = {},
         tailwindcss = {},

@@ -20,6 +20,12 @@ return {
     },
     format_on_save = function(bufnr)
       local ft = vim.bo[bufnr].filetype
+
+      local disable_autoformat = {
+        c = true,
+        cpp = true,
+      }
+
       local prettier_ft = {
         javascript = true,
         javascriptreact = true,
@@ -34,6 +40,11 @@ return {
         scss = true,
         less = true,
       }
+
+      if disable_autoformat[ft] then
+        return nil
+      end
+
       return {
         timeout_ms = 1000,
         lsp_fallback = not prettier_ft[ft],
