@@ -10,6 +10,7 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>l', group = 'lsp' },
       { '<leader>s', group = 'search' },
       { '<leader>d', group = 'debug' },
+      { '<leader>p', group = 'print' },
     },
   },
 }

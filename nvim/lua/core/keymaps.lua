@@ -13,6 +13,7 @@ local function map(mode, lhs, rhs, opt)
 end
 
 local autocomplete = require 'core.autocomplete'
+local c_snippets = require 'snippets.c'
 
 local function ensure_lazygit_nvim_server()
   local server = vim.v.servername
@@ -101,6 +102,19 @@ map('n', '<leader>g', function()
   vim.g.lazygit_last_win = vim.api.nvim_get_current_win()
   vim.cmd.LazyGit()
 end, 'lazyGit')
+map('n', '<leader>ps', function()
+  c_snippets.printf('s')
+end, '[p]rintf [s]tring')
+map('n', '<leader>pd', function()
+  c_snippets.printf('d')
+end, '[p]rintf [d]ecimal')
+map('n', '<leader>pz', function()
+  c_snippets.printf('zu')
+end, '[p]rintf si[z]e_t')
+map('n', '<leader>pf', function()
+  c_snippets.printf('f')
+end, '[p]rintf [f]loat')
+map('n', '<leader>pa', c_snippets.array_loop, '[p]rintf [a]rray loop')
 map('n', '<leader>b', '<C-6>', { desc = 'back' })
 
 -- ===== DAP ======
