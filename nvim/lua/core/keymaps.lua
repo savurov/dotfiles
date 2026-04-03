@@ -13,7 +13,12 @@ local function map(mode, lhs, rhs, opt)
 end
 
 local autocomplete = require 'core.autocomplete'
-local c_snippets = require 'snippets.c'
+local luasnip = require 'luasnip'
+
+local function feedkey(key)
+  local termcode = vim.api.nvim_replace_termcodes(key, true, false, true)
+  vim.api.nvim_feedkeys(termcode, 'n', false)
+end
 
 local function ensure_lazygit_nvim_server()
   local server = vim.v.servername
@@ -96,25 +101,51 @@ map('i', '<C-Space>', function()
     vim.lsp.buf.completion()
   end
 end, 'completion')
+map({ 'i', 's' }, '<CR>', function()
+  local ok_blink, blink = pcall(require, 'blink.cmp')
+  if ok_blink and blink.is_visible() then
+    feedkey '<CR>'
+    return
+  end
+
+  if luasnip.expandable() then
+    luasnip.expand()
+    return
+  end
+
+  feedkey '<CR>'
+end, {
+  desc = 'Snippet expand',
+  silent = true,
+})
+map({ 'i', 's' }, '<Tab>', function()
+  if luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+    return
+  end
+
+  feedkey '<Tab>'
+end, {
+  desc = 'Snippet expand or jump',
+  silent = true,
+})
+map({ 'i', 's' }, '<S-Tab>', function()
+  if luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+    return
+  end
+
+  feedkey '<S-Tab>'
+end, {
+  desc = 'Snippet jump back',
+  silent = true,
+})
 
 map('n', '<leader>g', function()
   ensure_lazygit_nvim_server()
   vim.g.lazygit_last_win = vim.api.nvim_get_current_win()
   vim.cmd.LazyGit()
 end, 'lazyGit')
-map('n', '<leader>ps', function()
-  c_snippets.printf('s')
-end, '[p]rintf [s]tring')
-map('n', '<leader>pd', function()
-  c_snippets.printf('d')
-end, '[p]rintf [d]ecimal')
-map('n', '<leader>pz', function()
-  c_snippets.printf('zu')
-end, '[p]rintf si[z]e_t')
-map('n', '<leader>pf', function()
-  c_snippets.printf('f')
-end, '[p]rintf [f]loat')
-map('n', '<leader>pa', c_snippets.array_loop, '[p]rintf [a]rray loop')
 map('n', '<leader>b', '<C-6>', { desc = 'back' })
 
 -- ===== DAP ======
