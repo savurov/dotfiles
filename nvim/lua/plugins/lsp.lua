@@ -135,6 +135,9 @@ return {
         --
         cssls = {},
         tailwindcss = {},
+        --
+        gopls = {},
+        --
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
