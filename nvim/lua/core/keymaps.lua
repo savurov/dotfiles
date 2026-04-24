@@ -35,6 +35,17 @@ local function ensure_lazygit_nvim_server()
   end
 end
 
+local function open_foot_in_current_cwd()
+  local cwd = vim.fn.getcwd()
+
+  if cwd == nil or cwd == '' then
+    vim.notify('Could not determine current working directory', vim.log.levels.ERROR)
+    return
+  end
+
+  vim.fn.jobstart({ 'swaymsg', 'exec', '--', 'foot', '-D', cwd }, { detach = true })
+end
+
 -- ===== Общие =====
 map('n', '<Esc>', '<cmd>nohlsearch<CR>', 'Clear search highlight')
 map('n', '<C-h>', '<C-w><C-h>', 'Move focus left')
@@ -42,6 +53,7 @@ map('n', '<C-l>', '<C-w><C-l>', 'Move focus right')
 map('n', '<C-j>', '<C-w><C-j>', 'Move focus down')
 map('n', '<C-k>', '<C-w><C-k>', 'Move focus up')
 map('v', '<C-c>', '"+y', 'ctrl+c')
+map('n', '<leader><CR>', open_foot_in_current_cwd, 'Open foot in current cwd')
 map('n', '<leader>q', '<cmd>qa<CR>', 'Quit')
 map('n', '<leader>lr', '<cmd>lsp restart<CR>', 'Restart LSP')
 map('n', '<leader>lt', autocomplete.toggle, 'Toggle autocomplete')
