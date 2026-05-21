@@ -19,7 +19,6 @@ return {
     vim.g.dbs = {
       { name = 'local', url = local_postgres_url },
     }
-    vim.g.db = local_postgres_url
 
     local dadbod_sql_group = vim.api.nvim_create_augroup('dadbod_sql_completion', { clear = true })
 
@@ -28,10 +27,6 @@ return {
       pattern = { 'sql', 'plsql' },
       callback = function(event)
         vim.bo[event.buf].omnifunc = 'vim_dadbod_completion#omni'
-
-        if vim.b[event.buf].db == nil or vim.b[event.buf].db == '' then
-          vim.b[event.buf].db = local_postgres_url
-        end
       end,
     })
   end,

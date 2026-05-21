@@ -75,9 +75,9 @@ end
 return {
   printf_snippet('ps', '%s', 'str', 'printf string'),
   printf_snippet('pd', '%d', 'value', 'printf decimal'),
-  printf_snippet('pz', '%zu', 'len', 'printf size_t'),
-  printf_snippet('pp', '%p', 'ptr', 'printf pointer'),
   printf_snippet('pf', '%f', 'value', 'printf float'),
+  printf_snippet('pt', '%zu', 'len', 'printf size_t'),
+  printf_snippet('pp', '%p', 'ptr', 'printf pointer'),
   s({
     trig = 'pa',
     name = 'array loop',
