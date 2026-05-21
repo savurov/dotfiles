@@ -1,0 +1,22 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "OpenAI Codex"
+            }
+        ],
+        "Category": "Window Management",
+        "Description": "Tile windows on the active monitor using a mosaic or vertical layout.",
+        "EnabledByDefault": false,
+        "Icon": "preferences-system-windows-script-test",
+        "Id": "mosaic-tile",
+        "License": "MIT",
+        "Name": "Mosaic Tile",
+        "Version": "1.0.0",
+        "Website": ""
+    },
+    "KPackageStructure": "KWin/Script",
+    "X-Plasma-API": "javascript",
+    "X-KDE-ConfigModule": "kcm_kwin4_genericscripted",
+    "X-KDE-Ordering": 110
+}

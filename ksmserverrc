@@ -1,0 +1,14 @@
+[General]
+confirmLogout=false
+loginMode=emptySession
+
+[LegacySession: saved at previous logout]
+count=0
+
+[Session: saved at previous logout]
+clientId1=106e313530000177707814600000010570015
+count=1
+program1=firefox
+restartCommand1=/usr/lib/firefox/firefox,--sm-client-id,106e313530000177707814600000010570015
+restartStyleHint1=0
+userId1=hijack
