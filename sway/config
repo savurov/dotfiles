@@ -94,8 +94,8 @@ input type:keyboard {
 }
 
 # borders and gaps
-client.focused          #7aa2f7 #7aa2f7 #ffffff #7aa2f7 #7aa2f7
-default_border pixel 1
+client.focused          #d99a5e #d99a5e #ffffff #d99a5e #d99a5e
+default_border pixel 2
 
 smart_gaps off
 gaps inner 5
@@ -157,10 +157,6 @@ for_window [app_id="blueman-manager"] floating enable, move position center
 for_window [app_id="qalculate-gtk"] floating enable, move position center
 for_window [class="zoom"] floating enable, move position center
 for_window [title="Picture-in-Picture"] floating enable
-
-
-for_window [app_id="firefox-chat"] move to workspace Chat
-for_window [app_id="firefox-default"] move to workspace Firefox
 
 # REAPER: everything floating by default
 for_window [class="REAPER"] floating enable, move position center

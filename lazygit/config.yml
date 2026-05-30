@@ -13,5 +13,3 @@ gui:
 git:
   ignoreWhitespaceInDiffView: true
   diffContextSize: 5
-  pagers:
-    - pager: '/home/hijack/.config/lazygit/diff-pager.sh'
