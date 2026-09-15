@@ -3,6 +3,8 @@ vim.g.maplocalleader = ' '
 
 vim.g.have_nerd_font = true
 
+vim.g.clipboard = 'osc52'
+
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.tabstop = 4
