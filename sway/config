@@ -23,16 +23,10 @@ output * dpms on
 output * bg #1F2430 solid_color
 output * adaptive_sync on
 output HDMI-A-1 {
-    resolution 1920x1080@74.986Hz
-    transform 90
-    position 1920 0
-    scale 1
-}
-
-output HDMI-A-2 {
-    resolution 1920x1080@100.047Hz
+    resolution 1920x1080@60Hz
+    transform normal
     position 0 0
-    scale 1
+    scale 1.5
 }
 
 
