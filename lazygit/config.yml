@@ -2,6 +2,8 @@ os:
   edit: '/home/hijack/.config/lazygit/open_changed_in_nvim.sh "{{filename}}" "{{line}}"'
   editAtLine: '/home/hijack/.config/lazygit/open_changed_in_nvim.sh "{{filename}}" "{{line}}"'
 gui:
+  sidePanelWidth: 0.4
+  screenMode: normal
   showNumstatInFilesView: true
   splitDiff: always
   theme:
