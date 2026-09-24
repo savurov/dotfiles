@@ -1,0 +1,23 @@
+# Пакеты не из официальных репозиториев Arch
+# Получен: 2026-09-24
+# Команда: pacman -Qqm
+# Это кандидаты для отдельной оценки, не список для установки.
+
+accounts-qml-module
+dblab
+ddcutil-service
+exercism
+google-chrome
+happ-desktop
+kdotool
+postman-bin
+ttf-google-fonts-git
+ttf-merriweather
+ttf-merriweather-sans
+ttf-oswald
+ttf-quintessential
+ttf-signika
+ttf-twemoji
+vial-appimage
+zoom
+

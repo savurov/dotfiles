@@ -1,0 +1,32 @@
+# Скопировать в ~/.zshrc после установки пакетов zsh, starship и
+# zsh-autosuggestions. Это безопасная версия текущей настройки: без NVM с
+# зашитой версией Node и без привязки к личным установкам.
+
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/.cargo/bin:$HOME/go/bin:$PATH"
+
+setopt PROMPT_CR
+unsetopt PROMPT_SP
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+setopt APPEND_HISTORY INC_APPEND_HISTORY SHARE_HISTORY
+setopt HIST_IGNORE_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS
+
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+eval "$(starship init zsh)"
+
+alias d='docker compose'
+alias n='nvim'
+alias nano='nvim'
+alias vim='nvim'
+
+# После установки mise добавь сюда строку, которую печатает:
+# mise activate zsh
